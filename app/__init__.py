@@ -23,8 +23,12 @@ def create_app():
     app.register_blueprint(navigation_bp)
     from app.controllers.libros_controller import libros_bp
     app.register_blueprint(libros_bp)
+    from app.controllers.socios_controller import socios_bp
+    app.register_blueprint(socios_bp)
     from app.controllers.api_controller import api_bp
     app.register_blueprint(api_bp)
+    from app.controllers.auth_controller import auth_bp
+    app.register_blueprint(auth_bp)
         # Crear las tablas en la base de datos
     with app.app_context():
         db.create_all()

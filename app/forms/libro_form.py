@@ -10,12 +10,22 @@ class LibroForm(FlaskForm):
 
     autor = StringField(
         "Autor",
-        validators=[DataRequired(), Length(max=100)]
+        validators=[DataRequired("El autor es obligatorio"), Length(max=100)]
     )
 
     resumen = TextAreaField(
         "Resumen",
         validators=[Length(min=5, max=1000)]
+    )
+
+    año = StringField(
+        "Año",
+        validators=[DataRequired("El año es obligatorio")]
+    )
+
+    categoria = StringField(
+        "Categoria",
+        validators=[DataRequired("La categoría es obligatoria"), Length(max=100)]
     )
 
     submit = SubmitField("Guardar")

@@ -7,7 +7,14 @@
 
 <ul>
     {% for libro in libros %}
-        <li>Titulo: <a href="/libros/{{ libro.id }}">{{ libro.titulo }}</a> Autor: {{ libro.autor }}</li>
+        <li>Titulo: <a href="/libros/{{ libro.id }}">{{ libro.titulo }}</a> Autor: {{ libro.autor }} Año: {{ libro.año }} Categoria: {{ libro.categoria }}
+            Estado: 
+            {% if libro.disponible %}
+                Disponible
+            {% else %}
+                Prestado
+            {% endif %}
+        </li>
         
     {% endfor %}
 </ul>

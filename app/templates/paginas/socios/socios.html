@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Socios{% endblock %}
+
+{% block content %}
+<h1>Socios</h1>
+
+<ul>
+    {% for socio in socios %}
+        <li>Nombre: {{ socio.nombre }} Correo electrónico: {{ socio.email }} Libros prestados: {{ socio.libros_prestados }} <a href=""> Editar socio</a> <a href="">Eliminar socio</a></li> 
+    {% endfor %}
+</ul>
+{% endblock %}

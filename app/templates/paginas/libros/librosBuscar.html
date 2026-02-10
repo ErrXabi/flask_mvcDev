@@ -1,0 +1,28 @@
+
+{% extends "base.html" %}
+{% block title %}Editar libro{% endblock %}
+
+
+{% block content %}
+
+<h1>Buscar un libros por título</h1>
+{%include 'componentes/buscar_libro_form.html'%}
+<br>
+{% if libros %}
+    <ul>
+        {% for libro in libros %}
+            <li>Titulo: <a href="/libros/{{ libro.id }}">{{ libro.titulo }}</a> Autor: {{ libro.autor }} Año: {{ libro.año }} Categoria: {{ libro.categoria }}
+                Estado: 
+                {% if libro.disponible %}
+                    <span class="libre">Disponible</span>
+                {% else %}
+                    <span class="ocupado">Prestado</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    {% elif request.method == "POST" %}
+        <p>No se ha encontrado ningún libro</p>
+{% endif %}
+
+{% endblock %}

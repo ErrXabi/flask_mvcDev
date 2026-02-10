@@ -1,6 +1,5 @@
 <form method="post" novalidate>
     {{ form.hidden_tag() }}
-
     <div>
         <label for="{{ form.titulo.id }}">{{ form.titulo.label }}</label>
         {{ form.titulo }}
@@ -21,6 +20,22 @@
         <label for="{{ form.resumen.id }}">{{ form.resumen.label }}</label>
         {{ form.resumen }}
         {% for error in form.resumen.errors %}
+            <p role="alert">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div>
+        <label for="{{ form.año.id }}">{{ form.año.label }}</label>
+        {{ form.año }}
+        {% for error in form.año.errors %}
+            <p role="alert">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div>
+        <label for="{{ form.categoria.id }}">{{ form.categoria.label }}</label>
+        {{ form.categoria }}
+        {% for error in form.categoria.errors %}
             <p role="alert">{{ error }}</p>
         {% endfor %}
     </div>

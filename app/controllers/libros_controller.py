@@ -1,7 +1,8 @@
 from flask import Blueprint,  request, render_template, redirect, url_for
 from app.forms.libro_form import LibroForm
 from app.models.libro import Libro
-from app.services.libros_service import *
+from app.services.libros_service import listar_libros, buscar_libro, editar_libro, crear_libro
+from app.forms.buscar_libro_form import BuscarLibroForm
 
 libros_bp = Blueprint(
     "libros",
@@ -18,6 +19,21 @@ def listar():
 def grid():
     libros = listar_libros()
     return render_template("paginas/libros/librosGrid.html", libros=libros)
+
+@libros_bp.route("/disponibles")
+def disponibles():
+    libros = listar_libros()
+    return render_template("paginas/libros/librosDisponibles.html", libros=libros)
+
+@libros_bp.route("/buscar", methods=["GET", "POST"])
+def buscar():
+    form = BuscarLibroForm()
+    libros_encontrados = []
+
+    if form.validate_on_submit():
+        termino = form.titulo.data
+        libros_encontrados = buscar_libro(termino)
+    return render_template("paginas/libros/librosBuscar.html", form=form, libros=libros_encontrados)
 
 @libros_bp.route("/<int:id>", methods=["GET","POST"])
 def detalle(id):
@@ -49,8 +65,10 @@ def crear():
             titulo = form.titulo.data
             autor = form.autor.data
             resumen = form.resumen.data
+            año = form.año.data
+            categoria = form.categoria.data
 
-            crear_libro(titulo, autor, resumen)
+            crear_libro(titulo, autor, resumen, año, categoria)
 
             return redirect(url_for("libros.listar"))
 

@@ -2,16 +2,25 @@ from app import db
 class Libro(db.Model):
     __tablename__ = "libros"
     id = db.Column(db.Integer, primary_key=True)
-    titulo = db.Column(db.String(200), nullable=False)  
+    titulo = db.Column(db.String(200), nullable=False)
     autor = db.Column(db.String(100), nullable=False)
     resumen = db.Column(db.Text, nullable=True)
-
-
+    año = db.Column(db.String, nullable=False)
+    categoria = db.Column(db.String(100), nullable=False)
+    id_socio_prestado = db.Column(db.Integer, db.ForeignKey("socios.id"), nullable=True)
+    
+    @property
+    def disponible(self):
+        return self.id_socio_prestado is None
 
     def to_dict(self):
         return {
             "id": self.id,
             "titulo": self.titulo,
              "autor": self.autor,
-            "resumen": self.resumen
+            "resumen": self.resumen,
+            "año": self.año,
+            "categoria": self.categoria,
+            "disponible": self.disponible,
+            "id_socio_prestado": self.id_socio_prestado
         }

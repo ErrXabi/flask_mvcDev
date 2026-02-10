@@ -12,8 +12,8 @@ def obtener_libro(id):
     return Libro.query.get(id)
 
 
-def crear_libro(titulo, autor, resumen=None ):
-    libro = Libro(titulo=titulo, autor=autor, resumen=resumen)
+def crear_libro(titulo, autor, resumen, año, categoria):
+    libro = Libro(titulo=titulo, autor=autor, resumen=resumen, año=año, categoria=categoria)
     db.session.add(libro)
     db.session.commit()
     return libro
@@ -32,7 +32,6 @@ def editar_libro(libro_id, titulo=None, autor=None, resumen=None):
     db.session.commit()
     return libro
 
-
-
-
-
+def buscar_libro(texto):
+    libros = Libro.query.filter(Libro.titulo.ilike(f"%{texto}%")).all()
+    return libros
