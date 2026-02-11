@@ -1,38 +1,48 @@
 from app import db
 from app.models.socio import Socio
-
-def crear_usuario(nombre, email, password, rol="Socio"):
-    usuario_existente = Socio.query.filter_by(nombre=nombre).first()
-    if (usuario_existente):
-        return "El usuario ya existe"
-    
-    nuevo_usuario = Socio(nombre=nombre, email=email, rol=rol)
-    nuevo_usuario.set_password(password)
-
-    db.session.add(nuevo_usuario)
-    db.session.commit()
-    return True
-
-def autenticar_usuario(nombre, password):
-    usuario = Socio.query.filter_by(nombre=nombre).first()
-
-    if (usuario and usuario.check_password(password)):
-        return usuario
-    return None
+from app.models.libro import Libro
 
 def listar_socios():
     return Socio.query.all()
 
-def editar_socio(socio_id, nombre=None, email=None, password=None):
+def listar_socios_con_prestamos():
+    return Socio.query.join(Libro).filter(Libro.id_socio_prestado != None).distinct().all()
+
+def crear_socio(nombre, email):
+    socio_existente = Socio.query.filter_by(nombre=nombre).first()
+    
+    if socio_existente:
+        return False
+    
+    nuevo_socio = Socio(nombre=nombre, email=email)
+
+    db.session.add(nuevo_socio)
+    db.session.commit()
+    return True
+
+def editar_socio(socio_id, nombre=None, email=None):
     socio = Socio.query.get(socio_id)
     if not socio:
         return None
     
-    if nombre is not None:
+    if nombre:
         socio.nombre = nombre
-    if email is not None:
+    if email:
         socio.email = email
-    if password is not None:
-        socio.password = password
+        
     db.session.commit()
     return socio
+
+# Al eliminar el socio, aunque aparezca error 500 "Internal Server Error", se borra en la base de datos
+def eliminar_socio(socio_id):
+    socio = Socio.query.get(socio_id)
+    
+    if not socio:
+        return False, "El socio no existe"
+    
+    if socio.libros_prestados:
+        return False, "No se puede eliminar: El socio tiene libros pendientes de devolución."
+
+    db.session.delete(socio)
+    db.session.commit()
+    return True, "Socio eliminado correctamente"

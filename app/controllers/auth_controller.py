@@ -1,5 +1,6 @@
 from flask import Blueprint, request, render_template, redirect, url_for, flash, session
-from app.services.socio_service import crear_usuario, autenticar_usuario
+from app.services.usuario_service import autenticar_usuario
+from app.services.socio_service import crear_socio
 
 auth_bp = Blueprint(
     "usuarios",
@@ -12,13 +13,11 @@ def registro():
     if request.method == "POST":
         nombre = request.form.get("nombre")
         email = request.form.get("email")
-        password = request.form.get("contraseña")
 
-        # corregir exito de socios service, separar socio (no tiene q iniciar sesion), es una pagina de administrador
-        exito = crear_usuario(nombre, email, password)
+        exito = crear_socio(nombre, email)
 
         if exito:
-            return redirect(url_for("navigation.inicio"))
+            return redirect(url_for("socios.socios"))
         else:
             flash("Error al crear el usuario")
 

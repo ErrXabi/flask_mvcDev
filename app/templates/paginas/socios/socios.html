@@ -7,7 +7,7 @@
 
 <ul>
     {% for socio in socios %}
-        <li>Nombre: {{ socio.nombre }} Correo electrónico: {{ socio.email }} Libros prestados: {{ socio.libros_prestados }} <a href=""> Editar socio</a> <a href="">Eliminar socio</a></li> 
+        <li>Nombre: {{ socio.nombre }} Correo electrónico: {{ socio.email }} Libros prestados: {{ socio.libros_prestados }} <a href="{{ url_for('socios.editar', id=socio.id) }}"> Editar socio</a> <a href="{{ url_for('socios.eliminar', id=socio.id) }}">Eliminar socio</a></li> 
     {% endfor %}
 </ul>
 {% endblock %}

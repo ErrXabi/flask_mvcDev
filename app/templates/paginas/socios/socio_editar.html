@@ -1,14 +1,12 @@
 
 {% extends "base.html" %}
-{% block title %}Editar libro{% endblock %}
+{% block title %}Editar socio{% endblock %}
 
 
 {% block content %}
-<h1>Detalles del libro</h1>
-<p><strong>Título:</strong> {{ libro.titulo }}</p>
-<p><strong>Autor:</strong> {{ libro.autor }}</p>    
-<p><strong>Resumen:</strong> {{ libro.resumen }}</p>
-<h1>Editar libro con flask-WTF</h1>
+<h1>Editar un socio</h1>
+<p><strong>Nombre:</strong> {{ socio.nombre }}</p>
+<p><strong>Correo electrónico:</strong> {{ socio.email }}</p>
 
-{%include 'componentes/libro_form.html'%}
+{%include 'componentes/socio_form.html'%}
 {% endblock %}

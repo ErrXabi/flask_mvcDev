@@ -1,14 +1,12 @@
 from app import create_app
-from app.services.socio_service import crear_usuario
+from app.services.usuario_service import crear_usuario
 
 app = create_app()
 
 with app.app_context():
     crear_usuario(
-        nombre="Admin",
-        password="admin",
-        email="admin@admin.com",
-        rol="Administrador"
+        nombre="admin",
+        password="admin"
     )
 
 if __name__ == "__main__":

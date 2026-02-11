@@ -1,0 +1,15 @@
+<form method="post" novalidate>
+    {{ form.hidden_tag() }}
+    
+    <div>
+        <label for="{{ form.nombre.id }}">{{ form.nombre.label }}</label> {{ form.nombre(class="form-control") }}
+    </div>
+
+    <div>
+        <label for="{{ form.email.id }}">{{ form.email.label }}</label> {{ form.email(class="form-control") }}
+    </div>
+
+    <div style="margin-top: 10px;">
+        {{ form.submit() }}
+    </div>
+</form>

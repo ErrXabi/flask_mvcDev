@@ -2,11 +2,15 @@ from sqlalchemy import func
 from app import db
 from app.models.libro import Libro
 
-
-
 def listar_libros():
     return Libro.query.all()
     #return Libro.query.order_by(func.lower(Libro.titulo)).all()
+
+def listar_libros_disponibles():
+    return Libro.query.filter(Libro.id_socio_prestado == None).all()
+
+def buscar_libro(texto):
+    return Libro.query.filter(Libro.titulo.ilike(f"%{texto}%")).all()
 
 def obtener_libro(id):
     return Libro.query.get(id)
