@@ -1,8 +1,9 @@
 from flask import Blueprint,  request, render_template, redirect, url_for
 from app.forms.libro_form import LibroForm
 from app.models.libro import Libro
-from app.services.libros_service import listar_libros, buscar_libro, editar_libro, crear_libro
+from app.services.libros_service import listar_libros, buscar_libro, editar_libro, crear_libro, prestar_libro, devolver_libro, listar_libros_disponibles, listar_libros_prestados
 from app.forms.buscar_libro_form import BuscarLibroForm
+from app.services.socio_service import listar_socios
 
 libros_bp = Blueprint(
     "libros",
@@ -22,7 +23,7 @@ def grid():
 
 @libros_bp.route("/disponibles")
 def disponibles():
-    libros = listar_libros()
+    libros = listar_libros_disponibles()
     return render_template("paginas/libros/librosDisponibles.html", libros=libros)
 
 @libros_bp.route("/buscar", methods=["GET", "POST"])
@@ -37,7 +38,7 @@ def buscar():
 
 @libros_bp.route("/<int:id>", methods=["GET","POST"])
 def detalle(id):
-    libro = Libro.query.get_or_404(id)
+    libro = Libro.query.get(id)
     form = LibroForm(obj=libro)  # ← precarga datos
     if request.method == "POST":
         if form.validate_on_submit():
@@ -56,7 +57,6 @@ def detalle(id):
    #return render_template("libro.html", form=form, libro=libro)
     return render_template("paginas/libros/libro_editar.html", form=form, libro=libro)
 
-
 @libros_bp.route("/crear", methods=["GET", "POST"])
 def crear():
     form = LibroForm()
@@ -74,4 +74,31 @@ def crear():
 
     return render_template("paginas/libros/libro_crear.html", form=form)
 
+@libros_bp.route("/prestamo", defaults={'id': None}, methods=["GET", "POST"])
 
+@libros_bp.route("/prestamo/<int:id>", methods=["GET", "POST"])
+def prestamo(id):
+    if request.method == "POST":
+        libro_id_form = request.form.get("libro_id")
+        socio_id_form = request.form.get("socio_id")
+        
+        prestar_libro(libro_id_form, socio_id_form)
+        return redirect(url_for("libros.listar"))
+
+    libros_libres = listar_libros_disponibles()
+    lista_socios = listar_socios()
+    
+    return render_template("paginas/libros/libro_prestar.html", libros=libros_libres, socios=lista_socios, id_preseleccionado=id)
+
+@libros_bp.route("/devolucion", defaults={'id': None}, methods=["GET", "POST"])
+@libros_bp.route("/devolucion/<int:id>", methods=["GET", "POST"])
+def devolucion(id):
+    if request.method == "POST":
+        libro_id_form = request.form.get("libro_id")
+        
+        devolver_libro(libro_id_form)
+        return redirect(url_for("libros.listar"))
+
+    libros_ocupados = listar_libros_prestados()
+    
+    return render_template("paginas/libros/libro_devolver.html", libros=libros_ocupados, id_preseleccionado=id)

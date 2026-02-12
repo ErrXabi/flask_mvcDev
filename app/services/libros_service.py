@@ -36,6 +36,28 @@ def editar_libro(libro_id, titulo=None, autor=None, resumen=None):
     db.session.commit()
     return libro
 
-def buscar_libro(texto):
-    libros = Libro.query.filter(Libro.titulo.ilike(f"%{texto}%")).all()
-    return libros
+def prestar_libro(libro_id, socio_id):
+    libro = Libro.query.get(libro_id)
+
+    if not libro:
+        return False, "El libro no existe"
+    
+    if libro.id_socio_prestado is not None:
+        return False, "El libro ya está prestado a otro socio"
+    
+    libro.id_socio_prestado = socio_id
+    db.session.commit()
+    return True, "Libro prestado correctamente"
+
+def devolver_libro(libro_id):
+    libro = Libro.query.get(libro_id)
+
+    if not libro:
+        return False, "El libro no existe"
+
+    libro.id_socio_prestado = None
+    db.session.commit()
+    return True, "Libro devuelto correctamente"
+
+def listar_libros_prestados():
+    return Libro.query.filter(Libro.id_socio_prestado != None).all()
