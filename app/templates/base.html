@@ -18,7 +18,9 @@
             <a href="{{ url_for('libros.prestamo') }}">Prestar un libro</a>
             <a href="{{ url_for('libros.devolucion') }}">Devolver un libro</a>
             <a href="{{ url_for('socios.listar') }}">Todos los socios</a>
-            <a href="{{ url_for('usuarios.registro') }}">Registrar socios</a>
+            <a href="{{ url_for('socios.buscar') }}">Buscar socio</a>
+            <a href="{{ url_for('socios.con_prestamos') }}">Socios con libros</a>
+            <a href="{{ url_for('socios.registro') }}">Registrar socios</a>
             <span>{{ session.get("user_name") }}</span>
             <a href="{{ url_for('usuarios.logout') }}">Cerrar sesión</a>
         {% else %}

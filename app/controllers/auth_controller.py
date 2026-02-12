@@ -1,27 +1,11 @@
 from flask import Blueprint, request, render_template, redirect, url_for, flash, session
 from app.services.usuario_service import autenticar_usuario
-from app.services.socio_service import crear_socio
 
 auth_bp = Blueprint(
     "usuarios",
     __name__,
     url_prefix="/usuarios"
 )
-
-@auth_bp.route("/registro", methods=["GET", "POST"])
-def registro():
-    if request.method == "POST":
-        nombre = request.form.get("nombre")
-        email = request.form.get("email")
-
-        exito = crear_socio(nombre, email)
-
-        if exito:
-            return redirect(url_for("socios.socios"))
-        else:
-            flash("Error al crear el usuario")
-
-    return render_template("paginas/auth/registro.html")
 
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():

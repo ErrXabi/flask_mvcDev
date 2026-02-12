@@ -3,22 +3,14 @@
 {% block content %}
 <h2>Registrar Devolución</h2>
 
-{% if libros %}
+{% if form.libro_id.choices %}
     <form method="POST">
-        <label for="libro_id">Selecciona el libro a devolver:</label>
-        <br>
-        <select name="libro_id" id="libro_id" required>
-            <option value="">-- Selecciona un libro --</option>
-            {% for libro in libros %}
-                <option value="{{ libro.id }}" {% if id_preseleccionado == libro.id %} selected {% endif %}>
-                    {{ libro.titulo }} (ID Socio: {{ libro.id_socio_prestado }})
-                </option>
-            {% endfor %}
-        </select>
-
-        <br>
+        {{ form.hidden_tag() }}
+        <div>
+            <h3>Libro</h3>
+            {{ form.libro_id(class="form-control") }} </div>
         
-        <button type="submit">Confirmar Devolución</button>
+        {{ form.submit() }}
     </form>
 {% else %}
     <p>No hay libros prestados actualmente.</p>

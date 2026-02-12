@@ -1,6 +1,7 @@
 from app import db
 from app.models.socio import Socio
 from app.models.libro import Libro
+from sqlalchemy import or_
 
 def listar_socios():
     return Socio.query.all()
@@ -33,7 +34,6 @@ def editar_socio(socio_id, nombre=None, email=None):
     db.session.commit()
     return socio
 
-# Al eliminar el socio, aunque aparezca error 500 "Internal Server Error", se borra en la base de datos
 def eliminar_socio(socio_id):
     socio = Socio.query.get(socio_id)
     
@@ -46,3 +46,14 @@ def eliminar_socio(socio_id):
     db.session.delete(socio)
     db.session.commit()
     return True, "Socio eliminado correctamente"
+
+def buscar_socios(texto):
+    if not texto:
+        return []
+    
+    return Socio.query.filter(
+        or_(
+            Socio.nombre.ilike(f"%{texto}%"),
+            Socio.email.ilike(f"%{texto}%")
+        )
+    ).all()

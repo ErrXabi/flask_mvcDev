@@ -3,31 +3,22 @@
 {% block content %}
 <h2>Registrar Préstamo</h2>
 
-{% if libros %}
+{% if form.libro_id.choices %}
     <form method="POST">
-        <label>Libro:</label><br>
-        <select name="libro_id" required>
-            <option value="">-- Selecciona un libro --</option>
-            {% for libro in libros %}
-                <option value="{{ libro.id }}" {% if id_preseleccionado == libro.id %} selected {% endif %}>
-                    {{ libro.titulo }}
-                </option>
-            {% endfor %}
-        </select>
-        <br>
-        <label>Socio:</label>
-        <br>
-        <select name="socio_id" required>
-            <option value="">-- Selecciona un socio --</option>
-            {% for socio in socios %}
-                <option value="{{ socio.id }}">{{ socio.nombre }}</option>
-            {% endfor %}
-        </select>
-        <br>
-        <button type="submit">Prestar Libro</button>
+        {{ form.hidden_tag() }}
+        <div>
+            <h3>Libro</h3>
+            {{ form.libro_id(class="form-control") }} 
+        </div>
+        <div>
+            <h3>Socio</h3>
+            {{ form.socio_id(class="form-control") }}
+        </div>
+        {{ form.submit() }}
     </form>
 {% else %}
-    <p>No hay libros disponibles.</p>
-    <a href="{{ url_for('libros.listar') }}">Volver</a>
+    <p>No hay libros disponibles para prestar en este momento.</p>
+    <a href="{{ url_for('libros.listar') }}">Volver al listado</a>
 {% endif %}
+
 {% endblock %}

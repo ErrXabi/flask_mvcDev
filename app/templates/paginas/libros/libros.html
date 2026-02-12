@@ -14,6 +14,7 @@
             {% else %}
                 Prestado
             {% endif %}
+            <a href="{{ url_for('libros.eliminar', id=libro.id) }}">Eliminar</a>
         </li>
         
     {% endfor %}

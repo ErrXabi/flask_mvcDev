@@ -22,7 +22,7 @@ def crear_libro(titulo, autor, resumen, año, categoria):
     db.session.commit()
     return libro
 
-def editar_libro(libro_id, titulo=None, autor=None, resumen=None):
+def editar_libro(libro_id, titulo=None, autor=None, resumen=None, año=None, categoria=None):
     libro = Libro.query.get(libro_id)
     if not libro:
         return None
@@ -33,8 +33,25 @@ def editar_libro(libro_id, titulo=None, autor=None, resumen=None):
         libro.autor = autor
     if resumen is not None:
         libro.resumen = resumen
+    if año is not None:
+        libro.año = año
+    if categoria is not None:
+        libro.categoria = categoria
+
     db.session.commit()
     return libro
+
+def eliminar_libro(libro_id):
+    libro = Libro.query.get(libro_id)
+    if not libro:
+        return None
+    
+    if libro.id_socio_prestado is not None:
+        return False
+    
+    db.session.delete(libro)
+    db.session.commit()
+    return True
 
 def prestar_libro(libro_id, socio_id):
     libro = Libro.query.get(libro_id)

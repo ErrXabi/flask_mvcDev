@@ -10,6 +10,6 @@ class SocioForm(FlaskForm):
 
     email = StringField(
         "Email",
-        validators=[DataRequired("El correo electrónico es obligatorio"), Email() , Length(max=200)]
+        validators=[DataRequired(message="El correo electrónico es obligatorio"), Email() , Length(max=200)]
     )
     submit = SubmitField("Guardar")

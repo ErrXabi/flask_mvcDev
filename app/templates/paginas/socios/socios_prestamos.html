@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Socios con libros{% endblock %}
+
+{% block content %}
+<h1>Socios con libros</h1>
+
+<div class="grid-container">
+    {% for socio in socios %}
+        <div class="card">
+            <h1>Socio: {{ socio.nombre }}</h1>
+            {% for libro in socio.libros_prestados %}
+                <div class="autor">Autor: {{ libro.autor }}</div>
+                <div class="resumen">{{ libro.resumen }}</div>
+                <div class="año">Año: {{ libro.año }}</div>
+                <div class="categoria">Categoria: {{ libro.categoria }}</div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+    </div>
+
+{% endblock %}
