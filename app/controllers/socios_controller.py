@@ -30,16 +30,18 @@ def buscar():
 @socios_bp.route("/registro", methods=["GET", "POST"])
 @login_required
 def registro():
-    if request.method == "POST":
-        nombre = request.form.get("nombre")
-        email = request.form.get("email")
+    form = SocioForm()
+
+    if form.validate_on_submit():
+        nombre = form.nombre.data
+        email = form.email.data
 
         exito = crear_socio(nombre, email)
 
         if exito:
             return redirect(url_for("socios.listar"))
 
-    return render_template("paginas/auth/registro.html")
+    return render_template("paginas/auth/registro.html", form=form)
 
 @socios_bp.route("/editar/<int:id>", methods=["GET","POST"])
 @login_required
