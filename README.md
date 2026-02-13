@@ -14,7 +14,15 @@ Siempre que se instalen nuevas dependencias hay que actualizar el archivo requir
 pip freeze > requirements.txt
 
 EXPLICACIÓN BREVE DE LA ESTRUCTURA DEL CÓDIGO:
-
+- Controllers: Se guardan todas las rutas de cada libro, socio, API y autenticación, devolviendo vistas. Desde aquí se hace la llamada a los servicios.
+- Forms: Son las plantillas para cada formulario, con validaciones de FlaskWTF.
+- Models: Son los modelos para el libro, socio y usuario. Definen qué columnas se van a guardar en la BD, de qué tipo son y las relaciones entre las tablas.
+- Services: Es donde se ejecutan las funciones que ha llamado el controlador, y sirven para consultar, actualizar, guardar y eliminar información de la BD.
+- Static: Guarda archivos como el CSS.
+- Templates: Están los HTMLs de la aplicación, dentro están los componentes reutilizables para cada página, los formularios de registro y login y cada página para gestionar
+los libros y los socios.
+- Utils: Es donde se guardan los decoradores para utilizarlos en los controladores. En este caso está el decorador que protege las rutas, comprobando que el usuario
+que ha iniciado sesión es administrador.
 
 POSIBLES MEJORAS FUTURAS:
 - Permitir que los socios puedan iniciar sesión y gestionar sus propios libros
